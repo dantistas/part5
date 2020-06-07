@@ -3,11 +3,37 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+
+const Notification = ({message}) => {
+  if(message === null ) {
+    return null
+  }else {
+    return (
+      <div className="notification">
+        {message}
+      </div>
+    )
+  }
+}
+
+const ErrorNotification = ({error}) => {
+  if(error === null ) {
+    return null
+  }else {
+    return (
+      <div className="error">
+        {error}
+      </div>
+    )
+  }
+}
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   //login
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [notification, setNotification] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
   //blog form
@@ -41,10 +67,10 @@ const App = () => {
       setUsername('')
       setPassword('')
     }catch(exception){
-      setErrorMessage ('wrong credentials')
+      setErrorMessage ('wrong username or password')
       setTimeout(()=>{
         setErrorMessage(null)
-      }, 5000)
+      }, 3000)
     }
   }
   const createBlog = async (e) => {
@@ -55,11 +81,16 @@ const App = () => {
     setAuthor('')
     setUrl('')
     setBlogs(blogs.concat(returnedBlogs))
+    setNotification (`a new blog: ${title} by: ${author} was created!`)
+      setTimeout(()=>{
+        setNotification(null)
+      }, 3000)
 
   }
   if (user === null) {
     return (
       <div>
+      <ErrorNotification error={errorMessage} />
         <h2>Log in to application</h2>
         <form onSubmit={handleLogin}>
           <div>
@@ -92,6 +123,8 @@ const logOut = ()=>{
 }
   return (
     <div>
+      <Notification message={notification} />
+      <ErrorNotification error={errorMessage} />
       <h2>blogs</h2>
       <p>logged in as {user.name} </p>
       <button onClick={logOut}>log out</button>
