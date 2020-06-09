@@ -3,7 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import CreateNewBlog from './components/createblog'
-import Togglable from "./components/toggleCreateBlogForm"
+import Togglable from "./components/toggle"
 
 
 const Notification = ({message}) => {
