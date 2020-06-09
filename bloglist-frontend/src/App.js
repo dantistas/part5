@@ -32,18 +32,12 @@ const ErrorNotification = ({error}) => {
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [createNewVisible, setCreateNewVisible] = useState(false)
   //login
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [notification, setNotification] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
-  //blog form
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -76,20 +70,7 @@ const App = () => {
       }, 3000)
     }
   }
-  const createBlog = async (e) => {
-    e.preventDefault()
-    blogService.setToken(user.token)
-    const returnedBlogs = await blogService.create({title, author, url,})
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-    setBlogs(blogs.concat(returnedBlogs))
-    setNotification (`a new blog: ${title} by: ${author} was created!`)
-      setTimeout(()=>{
-        setNotification(null)
-      }, 3000)
-
-  }
+  
 
   const loginForm = () => {
     return (
@@ -125,13 +106,10 @@ const blogForm = () => {
   return (
     <Togglable buttonLabel="Create new Blog">
         <CreateNewBlog
-          createBlog={createBlog} 
-          title={title} 
-          author={author} 
-          url={url} 
-          setTitle={({target})=> setTitle(target.value)} 
-          setAuthor={({target})=> setAuthor(target.value)} 
-          setUrl={({target})=> setUrl(target.value)}
+        setNotification={setNotification}
+        user={user}
+        setBlogs={setBlogs}
+        blogs={blogs}
       />
     </Togglable>
       

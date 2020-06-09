@@ -1,7 +1,28 @@
-import React from 'react'
+import React, { useState }  from 'react'
+import blogService from '../services/blogs'
 
 
-const createNewBlog = ({createBlog, title, author, url, setTitle, setAuthor, setUrl }) => {
+const CreateNewBlog = ({setNotification,setBlogs,user,blogs}) => {
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+
+    const createBlog = async (e) => {
+      e.preventDefault()
+      blogService.setToken(user.token)
+      const returnedBlogs = await blogService.create({title, author, url,})
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setBlogs(blogs.concat(returnedBlogs))
+      setNotification (`a new blog: ${title} by: ${author} was created!`)
+        setTimeout(()=>{
+          setNotification(null)
+        }, 3000)
+  
+    }
+
+
     return (
         <div>
           <h2>create new</h2>
@@ -12,7 +33,7 @@ const createNewBlog = ({createBlog, title, author, url, setTitle, setAuthor, set
                 value={title}
                 name="Title"
                 placeholder="Title"
-                onChange={setTitle}
+                onChange={({target})=> setTitle(target.value)}
               />
             </div>
             <div>
@@ -21,7 +42,7 @@ const createNewBlog = ({createBlog, title, author, url, setTitle, setAuthor, set
                 value={author}
                 name="Author"
                 placeholder="Author"
-                onChange={setAuthor}
+                onChange={({target})=> setAuthor(target.value)}
               />
             </div>
             <div>
@@ -30,7 +51,7 @@ const createNewBlog = ({createBlog, title, author, url, setTitle, setAuthor, set
               value={url}
               name="Url"
               placeholder="Url"
-              onChange={setUrl}
+              onChange={({target})=> setUrl(target.value)}
             />
             </div>
             <button type="submit">Create</button>
@@ -40,4 +61,4 @@ const createNewBlog = ({createBlog, title, author, url, setTitle, setAuthor, set
     )
 }
 
-export default createNewBlog
+export default CreateNewBlog
