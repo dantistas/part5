@@ -135,11 +135,13 @@ const logOut = ()=>{
           <p>Logged in as {user.name}</p>
           <button onClick={logOut}>log out</button>
           {blogForm()}
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
         </div>
+        
       }
-       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+       
     </div>
   )
 }
