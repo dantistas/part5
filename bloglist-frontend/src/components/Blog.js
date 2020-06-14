@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 
 
 
-const Blog = ({blog}) => {
+const Blog = ({blog , deletePost}) => {
   const [visible, setVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -27,7 +27,7 @@ const Blog = ({blog}) => {
   }
   const onClickLikePost = () =>{
     blogService.like(blog.id)
-    setLikes(likes+1)// use state to update xD
+    setLikes(likes+1)
   }
 
   return (
@@ -42,10 +42,11 @@ const Blog = ({blog}) => {
     {blog.url}<br></br>
     likes: {likes} <button onClick={onClickLikePost}>like</button><br></br>
     {blog.author}<br></br>
-    {blog.id}
+    <button onClick={() => deletePost(blog.id)}>delete</button>
     </div>
   </div>
-  )}
+  )
+}
 
 export default Blog
 

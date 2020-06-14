@@ -47,7 +47,7 @@ const App = () => {
   blogs.sort(function (a, b) {
     return b.likes - a.likes
   })
-  
+
   useEffect(()=>{
     const loggedUserJson = window.localStorage.getItem('loggedUser') 
     if(loggedUserJson){
@@ -74,7 +74,21 @@ const App = () => {
       }, 3000)
     }
   }
-  
+
+  const deletePost = (id) => {
+    const toDelete = blogs.find(b => b.id === id)
+    const ok = window.confirm(`Delete: ${toDelete.title} by ${toDelete.author} ?`)
+    if(ok){
+      blogService.setToken(user.token)
+      blogService.remove(id)
+      setBlogs(blogs.filter(b => b.id !== id))
+      setNotification (`a blog: ${toDelete.title} by: ${toDelete.author} was deleted!`)
+        setTimeout(()=>{
+          setNotification(null)
+        }, 3000)
+    }  
+    }
+     
 
   const loginForm = () => {
     return (
@@ -140,7 +154,7 @@ const logOut = ()=>{
           <button onClick={logOut}>log out</button>
           {blogForm()}
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} user={user} deletePost={deletePost}/>
           )}
         </div>
         

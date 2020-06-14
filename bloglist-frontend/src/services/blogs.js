@@ -22,9 +22,15 @@ const create = async newObject =>{
 }
 
 const like = async id => {
-  console.log(id)
   await axios.put(`/api/blogs/${id}`)
   
 } 
 
-export default { getAll, setToken, create, like}
+const remove = async id => {
+  const config = {
+    headers: { Authorization: token}
+  }
+  await axios.delete(`/api/blogs/${id}`, config)
+}
+
+export default { getAll, setToken, create, like, remove}
