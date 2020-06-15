@@ -3,7 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import CreateNewBlog from './components/createblog'
-import Togglable from "./components/toggle"
+import Togglable from './components/toggle'
 import PropTypes from 'prop-types'
 
 
@@ -12,7 +12,7 @@ Togglable.propTypes = {
 }
 
 
-const Notification = ({message}) => {
+const Notification = ({ message }) => {
   if(message === null ) {
     return null
   }else {
@@ -24,7 +24,7 @@ const Notification = ({message}) => {
   }
 }
 
-const ErrorNotification = ({error}) => {
+const ErrorNotification = ({ error }) => {
   if(error === null ) {
     return null
   }else {
@@ -48,14 +48,14 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
   blogs.sort(function (a, b) {
     return b.likes - a.likes
   })
 
-  useEffect(()=>{
-    const loggedUserJson = window.localStorage.getItem('loggedUser') 
+  useEffect(() => {
+    const loggedUserJson = window.localStorage.getItem('loggedUser')
     if(loggedUserJson){
       const user = JSON.parse(loggedUserJson)
       setUser(user)
@@ -75,7 +75,7 @@ const App = () => {
       setPassword('')
     }catch(exception){
       setErrorMessage ('wrong username or password')
-      setTimeout(()=>{
+      setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
     }
@@ -89,63 +89,63 @@ const App = () => {
       blogService.remove(id)
       setBlogs(blogs.filter(b => b.id !== id))
       setNotification (`a blog: ${toDelete.title} by: ${toDelete.author} was deleted!`)
-        setTimeout(()=>{
-          setNotification(null)
-        }, 3000)
-    }  
+      setTimeout(() => {
+        setNotification(null)
+      }, 3000)
     }
-     
+  }
+
 
   const loginForm = () => {
     return (
-        <div>
-            <ErrorNotification error={errorMessage} />
-            <h2>Log in to application</h2>
-            <form onSubmit={handleLogin}>
-                <div>
-                <input 
-                type="text"
-                value={username}
-                name="Username"
-                placeholder="Username"
-                onChange={({target})=> setUsername(target.value)}
-                />
-                </div>
-                <div>
-                <input 
-                type="password"
-                value={password}
-                name="password"
-                placeholder="Password"
-                onChange={({target})=> setPassword(target.value)}
-                />
-                </div>
-                <button type="submit">login</button>
-            </form>
-        </div>
-      ) 
-}
+      <div>
+        <ErrorNotification error={errorMessage} />
+        <h2>Log in to application</h2>
+        <form onSubmit={handleLogin}>
+          <div>
+            <input
+              type="text"
+              value={username}
+              name="Username"
+              placeholder="Username"
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              value={password}
+              name="password"
+              placeholder="Password"
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </div>
+          <button type="submit">login</button>
+        </form>
+      </div>
+    )
+  }
 
-const blogForm = () => {
-  return (
-    <Togglable buttonLabel="Create new Blog">
+  const blogForm = () => {
+    return (
+      <Togglable buttonLabel="Create new Blog">
         <CreateNewBlog
-        setNotification={setNotification}
-        user={user}
-        setBlogs={setBlogs}
-        blogs={blogs}
-      />
-    </Togglable>
-      
-  )
-      
- 
-}
-const logOut = ()=>{
-  window.localStorage.clear()
-  window.location.reload()
-  
-}
+          setNotification={setNotification}
+          user={user}
+          setBlogs={setBlogs}
+          blogs={blogs}
+        />
+      </Togglable>
+
+    )
+
+
+  }
+  const logOut = () => {
+    window.localStorage.clear()
+    window.location.reload()
+
+  }
 
 
   return (
@@ -163,9 +163,9 @@ const logOut = ()=>{
             <Blog key={blog.id} blog={blog} user={user} deletePost={deletePost}/>
           )}
         </div>
-        
+
       }
-       
+
     </div>
   )
 }
