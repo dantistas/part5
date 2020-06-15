@@ -4,6 +4,12 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import CreateNewBlog from './components/createblog'
 import Togglable from "./components/toggle"
+import PropTypes from 'prop-types'
+
+
+Togglable.propTypes = {
+  buttonLabel: PropTypes.string.isRequired
+}
 
 
 const Notification = ({message}) => {
