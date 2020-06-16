@@ -147,6 +147,10 @@ const App = () => {
 
   }
 
+  const onClickLikePost = (id) => {
+    blogService.like(id)
+    
+  }
 
   return (
     <div>
@@ -160,7 +164,7 @@ const App = () => {
           <button onClick={logOut}>log out</button>
           {blogForm()}
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} user={user} deletePost={deletePost}/>
+            <Blog key={blog.id} blog={blog}  deletePost={deletePost} onClickLikePost={onClickLikePost}/>
           )}
         </div>
 

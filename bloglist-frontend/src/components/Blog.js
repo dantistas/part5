@@ -1,9 +1,9 @@
 import React, { useState }  from 'react'
-import blogService from '../services/blogs'
 
 
 
-const Blog = ({ blog , deletePost }) => {
+
+const Blog = ({ blog , deletePost, onClickLikePost }) => {
   const [visible, setVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
 
@@ -25,10 +25,7 @@ const Blog = ({ blog , deletePost }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  const onClickLikePost = () => {
-    blogService.like(blog.id)
-    setLikes(likes+1)
-  }
+  
 
   return (
     <div style={blogStyle} className={'blog-class'}>
@@ -38,17 +35,19 @@ const Blog = ({ blog , deletePost }) => {
       </div>
       <div style={showWhenVisible} className={'after-view-click-class'}>
         <div className={'title-class'}>
-          {blog.title}
+          title: {blog.title}
           <button onClick={toggleVisibility}>hide</button> 
         </div>
         <div className={'url-class'}>
-          {blog.url}
+          <a href={blog.url}>{blog.url}</a>
+          
+          
         </div>
         <div className={'likes-class'}>
-          likes: {likes} <button onClick={onClickLikePost}>like</button><br></br>
+          likes: {likes} <button onClick={() => { onClickLikePost(blog.id); setLikes(likes+1) }}>like</button>
         </div> 
         <div className={'author-class'}>
-          {blog.author}
+          author: {blog.author}
         </div>
         <button onClick={() => deletePost(blog.id)}>delete</button>
       </div>
