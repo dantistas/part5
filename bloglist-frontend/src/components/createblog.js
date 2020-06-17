@@ -1,34 +1,32 @@
 import React, { useState }  from 'react'
-import blogService from '../services/blogs'
 
 
-const CreateNewBlog = ({ setNotification,setBlogs,user,blogs }) => {
+const CreateNewBlog = ({ createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const createBlog = async (e) => {
-    e.preventDefault()
-    blogService.setToken(user.token)
-    const returnedBlogs = await blogService.create({ title, author, url, })
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-    setBlogs(blogs.concat(returnedBlogs))
-    setNotification (`a new blog: ${title} by: ${author} was created!`)
-    setTimeout(() => {
-      setNotification(null)
-    }, 3000)
 
-  }
-
+const addBlog = (e) => {
+  e.preventDefault()
+  createBlog({
+    title: title,
+    author: author,
+    url: url,
+  })
+  setTitle('')
+  setAuthor('')
+  setUrl('')
+  
+}
 
   return (
-    <div>
+    <div className="formDiv">
       <h2>create new</h2>
-      <form onSubmit={createBlog}>
+      <form onSubmit={addBlog}>
         <div>
           <input
+            id="title"
             type="text"
             value={title}
             name="Title"
@@ -38,6 +36,7 @@ const CreateNewBlog = ({ setNotification,setBlogs,user,blogs }) => {
         </div>
         <div>
           <input
+            id="author"
             type="text"
             value={author}
             name="Author"
@@ -47,6 +46,7 @@ const CreateNewBlog = ({ setNotification,setBlogs,user,blogs }) => {
         </div>
         <div>
           <input
+            id="url"
             type="text"
             value={url}
             name="Url"

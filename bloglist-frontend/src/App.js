@@ -59,6 +59,7 @@ const App = () => {
     if(loggedUserJson){
       const user = JSON.parse(loggedUserJson)
       setUser(user)
+      blogService.setToken(user.token)
     }
   },[])
   const handleLogin = async (e) => {
@@ -85,7 +86,7 @@ const App = () => {
     const toDelete = blogs.find(b => b.id === id)
     const ok = window.confirm(`Delete: ${toDelete.title} by ${toDelete.author} ?`)
     if(ok){
-      blogService.setToken(user.token)
+      // blogService.setToken(user.token)
       blogService.remove(id)
       setBlogs(blogs.filter(b => b.id !== id))
       setNotification (`a blog: ${toDelete.title} by: ${toDelete.author} was deleted!`)
@@ -94,7 +95,7 @@ const App = () => {
       }, 3000)
     }
   }
-
+  
 
   const loginForm = () => {
     return (
@@ -126,14 +127,20 @@ const App = () => {
     )
   }
 
+  const addBlog = async (blogObject) => {
+    const returnedBlogs = await blogService.create(blogObject)
+    setBlogs(blogs.concat(returnedBlogs))
+    setNotification (`a new blog: ${returnedBlogs.title} by: ${returnedBlogs.author} was created!`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
+  }
+
   const blogForm = () => {
     return (
       <Togglable buttonLabel="Create new Blog">
         <CreateNewBlog
-          setNotification={setNotification}
-          user={user}
-          setBlogs={setBlogs}
-          blogs={blogs}
+          createBlog={addBlog}
         />
       </Togglable>
 
