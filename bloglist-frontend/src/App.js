@@ -102,9 +102,10 @@ const App = () => {
       <div>
         <ErrorNotification error={errorMessage} />
         <h2>Log in to application</h2>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} id="login-form">
           <div>
             <input
+              id="username"
               type="text"
               value={username}
               name="Username"
@@ -114,6 +115,7 @@ const App = () => {
           </div>
           <div>
             <input
+              id="password"
               type="password"
               value={password}
               name="password"
@@ -128,9 +130,9 @@ const App = () => {
   }
 
   const addBlog = async (blogObject) => {
-    const returnedBlogs = await blogService.create(blogObject)
-    setBlogs(blogs.concat(returnedBlogs))
-    setNotification (`a new blog: ${returnedBlogs.title} by: ${returnedBlogs.author} was created!`)
+    const returnedBlog = await blogService.create(blogObject)
+    setBlogs(blogs.concat(returnedBlog))
+    setNotification (`a new blog: ${returnedBlog.title} by: ${returnedBlog.author} was created!`)
     setTimeout(() => {
       setNotification(null)
     }, 3000)
