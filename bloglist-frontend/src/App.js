@@ -100,7 +100,6 @@ const App = () => {
   const loginForm = () => {
     return (
       <div>
-        <ErrorNotification error={errorMessage} />
         <h2>Log in to application</h2>
         <form onSubmit={handleLogin} id="login-form">
           <div>
@@ -123,7 +122,7 @@ const App = () => {
               onChange={({ target }) => setPassword(target.value)}
             />
           </div>
-          <button type="submit">login</button>
+          <button id="login-button" type="submit">login</button>
         </form>
       </div>
     )
