@@ -28,7 +28,7 @@ const Blog = ({ blog , deletePost, onClickLikePost }) => {
   
 
   return (
-    <div style={blogStyle} className={'blog-class'}>
+    <div style={blogStyle} className={'blog-class'} id="blog">
       <div style={hideWhenVisible} className={'title-class'}>
         {blog.title}
         <button onClick={toggleVisibility}>view</button>
