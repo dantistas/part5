@@ -17,7 +17,7 @@ const Notification = ({ message }) => {
     return null
   }else {
     return (
-      <div className="notification">
+      <div className="notification" id="notification">
         {message}
       </div>
     )
@@ -29,7 +29,7 @@ const ErrorNotification = ({ error }) => {
     return null
   }else {
     return (
-      <div className="error">
+      <div id="error-notification" className="error">
         {error}
       </div>
     )
@@ -74,6 +74,7 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      console.log(user.id)
     }catch(exception){
       setErrorMessage ('wrong username or password')
       setTimeout(() => {
@@ -81,10 +82,14 @@ const App = () => {
       }, 3000)
     }
   }
-
+  console.log(blogs)
+  console.log(user)
   const deletePost = (id) => {
     const toDelete = blogs.find(b => b.id === id)
-    const ok = window.confirm(`Delete: ${toDelete.title} by ${toDelete.author} ?`)
+    console.log("todelete    :",toDelete)
+    console.log(toDelete.userID, '===' , user.id, '?')
+    if(toDelete.userID === user.id){
+      const ok = window.confirm(`Delete: ${toDelete.title} by ${toDelete.author} ?`)
     if(ok){
       // blogService.setToken(user.token)
       blogService.remove(id)
@@ -93,7 +98,14 @@ const App = () => {
       setTimeout(() => {
         setNotification(null)
       }, 3000)
+     }
+    }else{
+      setErrorMessage(`a blog: ${toDelete.title} by: ${toDelete.author} was NOT deleted! because you are not creator `)
+      setTimeout(() => {
+        setNotification(null)
+      }, 3000)
     }
+    
   }
   
 
@@ -131,6 +143,7 @@ const App = () => {
   const addBlog = async (blogObject) => {
     const returnedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(returnedBlog))
+    
     setNotification (`a new blog: ${returnedBlog.title} by: ${returnedBlog.author} was created!`)
     setTimeout(() => {
       setNotification(null)
@@ -142,6 +155,7 @@ const App = () => {
       <Togglable buttonLabel="Create new Blog">
         <CreateNewBlog
           createBlog={addBlog}
+          username={username}
         />
       </Togglable>
 
@@ -169,11 +183,13 @@ const App = () => {
         loginForm() :
         <div>
           <p>Logged in as {user.name}</p>
-          <button onClick={logOut}>log out</button>
+          <button id="logout-button" onClick={logOut}>log out</button>
           {blogForm()}
+          <div id='all-blogs'>
           {blogs.map(blog =>
             <Blog  key={blog.id} blog={blog}  deletePost={deletePost} onClickLikePost={onClickLikePost}/>
           )}
+          </div>
         </div>
 
       }

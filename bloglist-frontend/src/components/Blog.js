@@ -31,7 +31,7 @@ const Blog = ({ blog , deletePost, onClickLikePost }) => {
     <div style={blogStyle} className={'blog-class'} id="blog">
       <div style={hideWhenVisible} className={'title-class'}>
         {blog.title}
-        <button onClick={toggleVisibility}>view</button>
+        <button id="view-button" onClick={toggleVisibility}>view</button>
       </div>
       <div style={showWhenVisible} className={'after-view-click-class'}>
         <div className={'title-class'}>
@@ -43,13 +43,13 @@ const Blog = ({ blog , deletePost, onClickLikePost }) => {
           
           
         </div>
-        <div className={'likes-class'}>
-          likes: {likes} <button onClick={() => { onClickLikePost(blog.id); setLikes(likes+1) }}>like</button>
+        <div className={'likes-class'} id="likes-div">
+          likes: {likes} <button id="like-button" onClick={() => { onClickLikePost(blog.id); setLikes(likes+1) }}>like</button>
         </div> 
         <div className={'author-class'}>
           author: {blog.author}
         </div>
-        <button onClick={() => deletePost(blog.id)}>delete</button>
+        <button id="delete-button" onClick={() => deletePost(blog.id)}>delete</button>
       </div>
     </div>
   )
